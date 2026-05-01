@@ -17,6 +17,8 @@ jobs:
 
   rip-and-test:
     runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/hdiethelm/linuxcnc-builder:latest
     steps:
     - name: Dump GitHub context
       env:

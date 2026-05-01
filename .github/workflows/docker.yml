@@ -14,6 +14,9 @@ permissions:
   contents: read #  to fetch code (actions/checkout)
   packages: write # to create docker images
 
+env:
+  DEBIAN_VERSION: trixie
+
 jobs:
   build-docker:
     runs-on: ubuntu-24.04
@@ -41,6 +44,8 @@ jobs:
       uses: docker/build-push-action@v7
       with:
         context: .github/docker
+        build-args: |
+            BASE_IMAGE=debian:${{ env.DEBIAN_VERSION }}
         push: true
         outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=LinuxCNC build image
-        tags: ghcr.io/${{ github.repository_owner }}/linuxcnc-builder:latest
+        tags: ghcr.io/${{ github.repository_owner }}/linuxcnc-builder:${{ env.DEBIAN_VERSION }}-latest
