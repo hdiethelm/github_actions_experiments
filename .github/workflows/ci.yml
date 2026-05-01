@@ -14,11 +14,14 @@ permissions:
   contents: read #  to fetch code (actions/checkout)
 
 jobs:
-
-  rip-and-test:
-    runs-on: ubuntu-24.04
+  test:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner: ["ubuntu-24.04", "ubuntu-24.04-arm"]
+        debian_version:  ["bookworm", "trixie", "sid"]
     container:
-      image: ghcr.io/hdiethelm/linuxcnc-builder:latest
+      image: ghcr.io/hdiethelm/linuxcnc-builder:${{ matrix.debian_version }}-latest
     steps:
     - name: Dump GitHub context
       env:
