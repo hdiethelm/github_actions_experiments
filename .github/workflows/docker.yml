@@ -26,8 +26,8 @@ jobs:
         include:
           - runner_arch: x64
             runner: ubuntu-24.04
-          - runner_arch: arm64
-            runner: ubuntu-24.04-arm
+          #- runner_arch: arm64
+          #  runner: ubuntu-24.04-arm
     steps:
     - name: Dump GitHub context
       env:

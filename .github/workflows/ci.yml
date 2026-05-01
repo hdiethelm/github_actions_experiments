@@ -25,8 +25,8 @@ jobs:
         include:
           - runner_arch: x64
             runner: ubuntu-24.04
-          - runner_arch: arm64
-            runner: ubuntu-24.04-arm
+          #- runner_arch: arm64
+          #  runner: ubuntu-24.04-arm
     container:
       image: ghcr.io/hdiethelm/linuxcnc-builder:${{ matrix.debian_version }}-${{ matrix.runner_arch }}-latest
     steps:
