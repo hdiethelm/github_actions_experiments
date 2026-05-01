@@ -12,13 +12,11 @@ on:
 
 permissions:
   contents: read #  to fetch code (actions/checkout)
+  packages: write # to create docker images
 
 jobs:
-
   build-docker:
     runs-on: ubuntu-24.04
-    permissions:
-      packages: write # to create docker images
     steps:
     - name: Dump GitHub context
       env:
@@ -45,4 +43,4 @@ jobs:
         context: .github/docker
         push: true
         outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My test image
-        tags: ghcr.io/${{ github.repository_owner }}/hello:linux-x64
+        tags: ghcr.io/${{ github.repository_owner }}/linuxcnc-builder:latest
