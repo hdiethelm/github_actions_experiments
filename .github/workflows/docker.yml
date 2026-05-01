@@ -1,0 +1,38 @@
+# vim: sw=2
+
+name: Build CI
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+  check_suite:
+    types: [rerequested]
+
+permissions:
+  contents: read #  to fetch code (actions/checkout)
+  packages: write # to create docker images
+
+jobs:
+
+  build-docker:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo Number of CPUs: $(nproc)
+        echo "$GITHUB_CONTEXT"
+    - uses: actions/checkout@v6
+      with:
+        submodules: false
+        fetch-depth: 1
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v7
+      with:
+        context: .github/docker
+        file: ./Dockerfile
+        push: true
+        outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My test image
