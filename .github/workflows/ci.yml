@@ -1,0 +1,33 @@
+# vim: sw=2
+
+name: Build CI
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+  check_suite:
+    types: [rerequested]
+
+permissions:
+  contents: read #  to fetch code (actions/checkout)
+
+jobs:
+
+  rip-and-test:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo Number of CPUs: $(nproc)
+        echo "$GITHUB_CONTEXT"
+    - uses: actions/checkout@v6
+      with:
+        submodules: false
+        fetch-depth: 1
+    - name: Test123
+      run: |
+        echo hallo
