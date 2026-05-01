@@ -11,7 +11,7 @@ on:
     types: [rerequested]
 
 permissions:
-  contents: read #  to fetch code (actions/checkout)
+  contents: read  # to fetch code (actions/checkout)
   packages: write # to create docker images
 
 jobs:
