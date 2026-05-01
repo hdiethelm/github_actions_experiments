@@ -10,6 +10,9 @@ on:
   check_suite:
     types: [rerequested]
 
+env:
+  REGISTRY: ghcr.io
+
 permissions:
   contents: read #  to fetch code (actions/checkout)
   packages: write # to create docker images
@@ -25,10 +28,17 @@ jobs:
       run: |
         echo Number of CPUs: $(nproc)
         echo "$GITHUB_CONTEXT"
-    - uses: actions/checkout@v6
+    - name: Checkout repository
+      uses: actions/checkout@v6
       with:
         submodules: false
         fetch-depth: 1
+    - name: Log in to the Container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and push Docker image
       uses: docker/build-push-action@v7
       with:
