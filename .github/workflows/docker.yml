@@ -1,6 +1,6 @@
 # vim: sw=2
 
-name: Build CI
+name: Build Docker
 
 on:
   push:
@@ -33,6 +33,5 @@ jobs:
       uses: docker/build-push-action@v7
       with:
         context: .github/docker
-        file: ./Dockerfile
         push: true
         outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My test image
