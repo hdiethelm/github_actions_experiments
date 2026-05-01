@@ -10,9 +10,6 @@ on:
   check_suite:
     types: [rerequested]
 
-env:
-  REGISTRY: ghcr.io
-
 permissions:
   contents: read #  to fetch code (actions/checkout)
   packages: write # to create docker images
@@ -36,7 +33,7 @@ jobs:
     - name: Log in to the Container registry
       uses: docker/login-action@v3
       with:
-        registry: ${{ env.REGISTRY }}
+        registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and push Docker image
