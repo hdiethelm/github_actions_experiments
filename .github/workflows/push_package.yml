@@ -35,7 +35,7 @@ jobs:
     - name: Publish package
       run: |
         set -x
-        zip doc.zip html/
+        tar -czf doc.tar.gz html/
         TAG=${{github.ref_name}}
         echo ${{ secrets.GITHUB_TOKEN }} | oras login --username ${{ github.actor }} --password-stdin ghcr.io
-        oras push ghcr.io/${{ github.repository_owner }}/linuxcnc/doc:${TAG} --artifact-type application/vnd.pkgw doc.zip
+        oras push ghcr.io/${{ github.repository_owner }}/linuxcnc/doc:${TAG} --artifact-type application/vnd.pkgw doc.tar.gz
