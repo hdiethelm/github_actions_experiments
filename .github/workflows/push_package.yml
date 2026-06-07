@@ -1,0 +1,39 @@
+# vim: sw=2
+
+name: PushPackage
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+  check_suite:
+    types: [rerequested]
+
+permissions:
+  contents: read  # to fetch code (actions/checkout)
+  packages: write # to create docker images
+
+jobs:
+  htmldocs:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo Number of CPUs: $(nproc)
+        echo "$GITHUB_CONTEXT"
+    - name: Checkout repository
+      uses: actions/checkout@v6
+      with:
+        submodules: false
+        fetch-depth: 1
+    - name: Publish package
+      run: |
+        set -x
+        zip doc.zip html/
+        sudo apt-get --quiet update
+        sudo apt-get install --yes --no-install-recommends oras
+        echo ${{ secrets.GITHUB_TOKEN }} | oras login --username ${{ github.actor }} --password-stdin ghcr.io
+        oras push ghcr.io/${{ github.repository_owner }}/linuxcnc/doc --artifact-type application/vnd.pkgw doc.zip
