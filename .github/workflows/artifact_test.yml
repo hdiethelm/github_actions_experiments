@@ -1,6 +1,6 @@
 # vim: sw=2
 
-name: PushPackage
+name: Artifact
 
 on:
   push:
@@ -36,5 +36,5 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: linuxcnc-doc
-        path: docs/build/html*/ #Preserve the path for html
+        path: docs/build/html/
         if-no-files-found: error
