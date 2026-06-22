@@ -1,0 +1,25 @@
+# vim: sw=2
+
+name: MsgTest
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+  check_suite:
+    types: [rerequested]
+
+permissions:
+  contents: read  # to fetch code (actions/checkout)
+  packages: write # to create docker images
+
+jobs:
+  htmldocs:
+    runs-on: ubuntu-24.04
+    steps:
+    - name: Test123
+      run: |
+        echo "::warning title=HTML checks failed::failed"
+        echo "::warning title=HTML checks failed::"
+        echo "::error title=HTML checks failed::failed"
